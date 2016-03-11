@@ -1,12 +1,19 @@
 import {Component} from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
-import {HeroService} from './hero.service';
+
 import {DashboardComponent} from './dashboard.component';
-import {HeroesComponent} from './heroes.component';
 import {HeroDetailComponent} from './hero-detail.component';
+import {HeroesComponent} from './heroes.component';
+import {HeroService} from './hero.service';
 
 @Component({
+  directives: [ROUTER_DIRECTIVES],
+	providers: [
+    ROUTER_PROVIDERS,
+    HeroService
+  ],
   selector: 'my-app',
+  styleUrls: ['app/app.component.css'],
   template: `
     <h1>{{title}}</h1>
     <nav>
@@ -14,13 +21,7 @@ import {HeroDetailComponent} from './hero-detail.component';
 	    <a [routerLink]="['Heroes']">Heroes</a>
     </nav>
     <router-outlet></router-outlet>
-  `,
-  styleUrls: ['app/app.component.css'],
-  directives: [ROUTER_DIRECTIVES],
-  providers: [
-    ROUTER_PROVIDERS,
-    HeroService
-  ]
+  `
 })
 @RouteConfig([
 	{
@@ -29,15 +30,15 @@ import {HeroDetailComponent} from './hero-detail.component';
 		component: DashboardComponent,
 		useAsDefault: true
 	},
+	{
+		path: '/detail/:id',
+		name: 'HeroDetail',
+		component: HeroDetailComponent
+  },
   {
     path: '/heroes',
     name: 'Heroes',
     component: HeroesComponent
-  },
-  {
-		path: '/detail/:id',
-		name: 'HeroDetail',
-		component: HeroDetailComponent
   }
 ])
 export class AppComponent {
